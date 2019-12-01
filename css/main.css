@@ -1,0 +1,81 @@
+body{
+    background-color: black;
+    /*font-family: 'Source Code Pro', monospace;*/
+    font-family: 'Titillium Web', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+a { 
+    color: white;
+    text-decoration: none;
+}
+h1{
+    color: #d46313 ;
+}
+
+#container{
+    /*position: relative;*/
+    min-height: 80vh;
+}
+
+/* 네비게이션 바 */
+.navigation{
+    /* 요소 겹치기 https://abc1211.tistory.com/67 */
+    position: relative;
+    z-index:2;
+    
+    /*width: 100%;*/
+    height: 80px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 22px;
+    padding-top: 40px;
+    padding-left: 100px;
+}
+.navigation-menu{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.navigation-menu-right{
+    margin-left: 50px;
+    margin-right: 50px;
+    float: right;
+}
+
+
+/* 헤더 */
+.header{
+    position: absolute;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("/images/header_bg.jpg");
+    width: 100%;
+    height:300px;
+    top:0px;left:0px;
+}
+
+
+/* 내용 */
+.content{
+    margin-top: 230px;
+    /*margin-bottom: 50px;*/
+    /*margin-bottom:60px;*/
+    background-color: black;
+    color: white;
+    /*height: 100%;*/
+}
+.content-value{
+    margin-left: 9%;
+    margin-bottom: 11vh;
+}
+
+
+/* 꼬릿말 */
+#footer{
+    /*top: 20px;*/
+    color: white;
+    padding-left: 9%;
+    padding-top: 2vh;
+    /*width: 100%;*/
+    min-height: 7vh;
+    background-color: #0c1113;
+    bottom: 0px;
+}

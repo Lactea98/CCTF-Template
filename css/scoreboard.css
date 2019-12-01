@@ -1,0 +1,85 @@
+.scoreboard-top3-box{  
+    display: inline;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+
+.scoreboard-top3-image-front{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.scoreboard-top3-image-back{
+    position: absolute;
+    top: -90px;
+    left: 10px;
+    width: 130px;
+    height: 130px;
+}
+
+
+.scoreboard-top3-footer-1{
+    position: absolute;
+    top: 45px;
+    left: 13px;
+}
+.scoreboard-top3-footer-2{
+    position: absolute;
+    top: 53px;
+    left: 13px;
+}
+.scoreboard-top3-footer-3{
+    position: absolute;
+    top: 56px;
+    left: 13px;
+}
+
+
+.scoreboard-top3-1{
+    color: #ccb88c;
+    font-weight: bold;
+    font-size: 35px;
+}
+.scoreboard-top3-2{
+    color: #8a8a8d;
+    font-weight: bold;
+    font-size: 25px;
+}
+.scoreboard-top3-3{
+    color: #6e5f5b;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+.scoreboard-top3-points{
+    margin-left: 15px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.scoreboard-top3-nickname{
+    margin-left: 5px;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+.scoreboard-top3-1-s{
+    color: #ccb88c;
+}
+.scoreboard-top3-2-s{
+    color: #8a8a8d;
+}
+.scoreboard-top3-3-s{
+    color: #6e5f5b;
+}
+
+
+.scoreboard-text-overflow{
+    max-width: 200px;
+    word-break:break-all;
+}

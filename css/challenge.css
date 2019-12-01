@@ -1,0 +1,141 @@
+.prob {
+  width: 250px;
+  height: 180px;
+  background: #fff;
+  border-radius: 5%;
+  display: inline-block;
+  margin: 1rem;
+  position: relative;
+  
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.prob:hover {
+  box-shadow: 0 0px 28px rgba(185,75,0,0.8), 0 0px 10px rgba(0,0,0,0.22);
+}
+.prob-content{
+    color: black;
+    position: relative;
+    top: 10px;
+    left: 20px;
+}
+.prob-title{
+    font-size: 25px;
+    font-weight: bold;
+}
+.prob-points{
+    margin-top: 10px;
+    font-size: 35px;
+    font-weight: bold;
+    display: inline;
+}
+.prob-level{
+    position: relative;
+    top: 40px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.prob-option{
+    float: right;
+}
+.prob-option-select{
+    margin-right: 50px;
+}
+.custom-control{
+    position: relative;
+    top: 25px;
+}
+.prob-right{
+    margin-right: 100px;
+}
+
+
+/* Modal */
+.modal-header{
+    font-size: 25px;
+    color: black;
+    font-weight: bold;
+    word-break:break-all;
+}
+.modal-body, .modal-footer{
+    font-size: 17px;
+    color: black;
+}
+.modal-solver{
+    margin-top: 20px;
+    color: black;
+}
+.modal-href{
+    color: #d46313;
+}
+
+
+/***************************
+* 실시간 이벤트 및 공지 텝
+*/
+#realtime{
+    position: fixed;
+    right: 10px;
+    bottom: 50px;
+    
+    font-size: 17px;
+    font-weight: bold;
+}
+.hr{
+    width: 400px;
+    height: 3px;
+    margin-top: 10px;
+    background-color: white;
+}
+.fas{
+    position: relative;
+    float: right;
+    margin-right: 10px;
+    top: 3px;
+}
+.realtime-content{
+    margin-left: 10px;
+    position: relative;
+    top: 5px;
+    color: #d46313;
+}
+
+
+.realtime-announcment-list{
+    background: black;
+    color: white;
+    
+    max-width: 393px;
+    height: 120px;
+    max-height: 120px;
+    padding-left: 7px;
+    padding-top: 1px;
+    
+    overflow-y: auto;
+    word-break:break-all;
+    
+}
+.announcement-date{
+    color: #5d5d5d;
+    font-size: 14px;
+    display: inline-block;
+}
+.announcement-content{
+    margin-bottom: 5px;
+    display: inline;
+}
+
+
+
+.realtime-chatting-list{
+    background: black;
+    
+    max-width: 393px;
+    height: 120px;
+    max-height: 120px;
+    padding-left: 7px;
+    padding-top: 1px;
+    
+    overflow-y: auto;
+    word-break:break-all;
+}

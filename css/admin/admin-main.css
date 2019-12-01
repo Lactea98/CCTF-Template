@@ -1,0 +1,126 @@
+.config-box{
+    background-color: rgba(41, 30, 24, 0.47);
+    border-radius: 10px;
+    
+    margin-top: 50px;
+    padding-top: 10px;
+    padding-left: 20px;
+    
+    width: 1400px;
+    height: auto;
+}
+.config-hr{
+    width: 1380px;
+    height: 1px;
+    margin-top: 10px;
+    background-color: white;
+}
+.config-title{
+    color: #d46313;
+    font-weight: 900;
+    font-size: 30px;
+}
+.config-right{
+    float: right;
+    margin-top: 8px;
+    margin-right: 20px;
+    font-size: 18px;
+    color: white;
+}
+.config-content{
+    margin-top: 30px;
+    padding-bottom: 30px;
+    font-size: 18px;
+}
+.config-challenge-textarea{
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    border-radius: 5px;
+    width: 600px;
+    height: 150px;
+    padding-left: 8px;
+}
+.config-challenge-input{
+    width: 600px;
+    height: 40px;
+}
+.config-challenge-hint{
+    width: 800px;
+    margin-right: 10px;
+}
+.config-input-id{
+    width: 300px;
+}
+
+
+
+
+.config-announcement-result{
+    margin-top: 25px;
+}
+.config-announcement-content{
+    display: inline-block;
+    max-width: 1200px;
+    word-break:break-all;
+}
+.config-announcement-date{
+    color: #5d5d5d;
+    font-size: 14px;
+    /*display: inline;*/
+}
+.config-announcement-result-btn{
+    color: red;
+    margin-left: 50px;
+    margin-right: 50px;
+    float: right;
+}
+.config-announcement-input{
+    margin-right: 10px;
+}
+
+
+.config-input{
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    border-radius: 5px;
+    padding-left: 8px;
+    height: 35px;
+}
+
+
+.config-request-result{
+    margin-left: 50px;
+    display: inline-block;
+}
+.config-challenge-request-result{
+    margin-left: 50px;
+    margin-right: 50px;
+    display: inline-block;
+}
+
+
+.config-log-success{
+    width: 10px;
+    height: 10px;
+    /*border-radius: 50%;*/
+    background: green;
+    display: inline;
+}
+.config-log-wrong{
+    width: 10px;
+    height: 10px;
+    /*border-radius: 50%;*/
+    background: red;
+    display: inline;
+}
+.config-log-input{
+    margin-right: 10px;
+}
+
+
+.config-category-result-btn{
+    color: red;
+    margin-left: 50px;
+    margin-right: 50px;
+    float: right;
+}

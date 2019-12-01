@@ -1,0 +1,16 @@
+#login-info{
+  display: inline;
+}
+
+.login-content{
+  margin: auto;
+  display: table;
+  color: black;
+  width: 400px;
+  background-color: white;
+  margin-bottom: 11vh;
+}
+
+.login-title{
+  text-align: center;
+}
