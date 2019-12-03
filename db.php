@@ -1,7 +1,7 @@
 <?php
     $host = 'localhost';
-    $user = 'universe';
-    $pw = 'kk123456789';
+    $user = 'aaaaaa';
+    $pw = 'aaaaaaaa';
     $dbname = 'CCTF';
     $mysqli = mysqli_connect($host, $user, $pw, $dbname);
     
