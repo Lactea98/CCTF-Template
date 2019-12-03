@@ -128,6 +128,8 @@
         }
     }
     else if($option[0] === "challenge"){
+        //////////////////////////
+        // 문제를 만들때 
         if(isset($option[1]) && $option[1] === "create"){
             $title = $_POST['title'];
             $content = $_POST['contents'];
@@ -147,19 +149,22 @@
             else if($insert = $mysqli->prepare("INSERT INTO challenge (title, contents, flag, points, bonus, decrease, visible, category, solved, level, first_solver, solver_list) VALUES (?,?,?,?,?,?,?,?, 0, ?, '', '')")){
                 $insert->bind_param("sssiiiiss", $title, $content, $flag, $points, $bonus, $decrease, $isVisible, $category, $level);
                 $isErr = $insert->execute();
-                
+                $insert->close();
                 if($isErr === false){
                     $response = array("message" => "DB error.", "category" => "challenge", "result" => "error");
                 }
                 else{
                     $response = array("message" => "Successfully create new challenge.", "category" => "challenge", "result" => "success");
                 }
-                $insert->close();
             }
             else{
                 $response = array("message" => "DB error.", "category" => "challenge", "result" => "error");
             }
         } 
+        ///////////////////////
+        
+        ///////////////////////
+        // 문제를 수정할 때
         else{
             $idx = $_POST['idx'];
             $title = $_POST['title'];
@@ -180,17 +185,37 @@
                 $isErr = $result->execute();
     
                 if($isErr === false){
+                    $result->close();
                     $response = array("message" => "Not exist idx.", "category" => "challenge", "result" => "error");
                 }
                 else{
-                    $response = array("message" => "Successfully updated.", "category" => "challenge", "result" => "success");
+                    $result->close();
+                    
+                    // announcement 테이블에 challenge가 update 되었다고 알리기
+                    if($isVisible == 1){
+                        if($insert2 = $mysqli->prepare("INSERT INTO announcement (category, message, date) VALUES ('challenge', ?, now())")){
+                            $message = $title . " challenge is updated.";
+                            $insert2->bind_param("s", $message);
+                            $isErr = $insert2->execute();
+                            
+                            if($isErr === false){
+                                $response = array("message" => "Successfully updated, but Error cause in announcement table during inserting.", "category" => "challenge", "result" => "success");
+                            }
+                            else{
+                                $response = array("message" => "Successfully updated and announcement table is inserted.", "category" => "challenge", "result" => "success");
+                            }
+                        }
+                    }
+                    else{
+                        $response = array("message" => "Successfully updated.", "category" => "challenge", "result" => "success");
+                    }
                 }
-                $result->close();
             }
             else{
                 $response = array("message" => "DB error.", "category" => "challenge", "result" => "error");
             }
         }
+        /////////////////
     }
     else if($option[0] === "user"){
         $userid = $_POST['userid'];

@@ -16,6 +16,26 @@
     
     include "./db.php";
     
+    $query = "SELECT begin_timer <= now() as now, end_timer <= now() as end FROM config";
+    $result = $mysqli->query($query);
+    $row = mysqli_fetch_array($result);
+    
+    // CCTF가 시작 했는지 확인
+    if($row['now'] != 1){   // 1이면 시작 됨
+        $response = array("result" => "CCTF is not started.");
+        
+        header('Content-Type: application/json');
+        echo json_encode($response, true);
+        exit();
+    }
+    if($row['end'] == 1){   // 1이면 끝남
+        $response = array("result" => "CCTF is ended.");
+        
+        header('Content-Type: application/json');
+        echo json_encode($response, true);
+        exit();
+    }
+    
     // Login check
     if($_SESSION['isLogin']){
         if(isset($_POST['idx'], $_POST['flag'], $_POST['csrf_token'])){
@@ -85,7 +105,7 @@
                                 [*] Update user's points, last_time and solved_challenge
                             */
                             // Update user's points
-                            $result_points = $u_points + $c_points + $c_bonus;
+                            $result_points = $u_points + $c_points + $result_bonus;
                             $solved_challenge = $u_solved_challenge . $p_idx . ",";
                             if($update = $mysqli->prepare("UPDATE user SET points=?, last_time=now(), solved_challenge=? WHERE nickname=?")){
                                 $update->bind_param("iss", $result_points, $solved_challenge, $nickname);
@@ -140,17 +160,27 @@
                             if($logs_query = $mysqli->prepare("INSERT INTO logs (category, nickname, submit, title, date) VALUES (?,?,?,?,now())")){
                                 $logs_query->bind_param("ssss", $log_category, $log_nickname, $log_flag, $log_title);
                                 $logs_query->execute();
+                                $logs_query->close();
                                 
-                                $response = array("result" => "success", "solved" => $c_solved, "solver_list" => $result_solver_list);
+                                // announcement 테이블에 유저가 문제를 풀었다고 알리기
+                                if($announce = $mysqli->prepare("INSERT INTO announcement (category, message, date) VALUES ('captured', ?, now())")){
+                                    $message =  htmlspecialchars($log_nickname . " || " . $log_title);
+                                    $announce->bind_param("s", $message);
+                                    $announce->execute();
+                                    $announce->close();
+                                    
+                                    $response = array("result" => "success", "solved" => $c_solved, "solver_list" => $result_solver_list);
+                                }
+                                else{
+                                    $response = array("result" => $mysqli->error);
+                                }
                             }
                             else{
-                                $response = array("result" => $mysqli->error);
+                                $response = array("result" => "DB error.");
                             }
                             
                             header('Content-Type: application/json');
                             echo json_encode($response, true);
-                            
-                            $logs_query->close();
                         }
                     }
                     // Wrong flag

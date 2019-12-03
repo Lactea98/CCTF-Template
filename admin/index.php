@@ -260,7 +260,7 @@
                                                     <?php echo $row['date']; ?>
                                                 </div>
                                                 <div class="config-announcement-content">
-                                                    <?php echo $row['message']; ?>
+                                                    <?php echo htmlspecialchars($row['message']); ?>
                                                 </div>
                                                 <div class="config-announcement-result-btn">
                                                     Delete

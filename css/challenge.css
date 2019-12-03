@@ -87,7 +87,7 @@
     margin-top: 10px;
     background-color: white;
 }
-.fas{
+.fa-list{
     position: relative;
     float: right;
     margin-right: 10px;
@@ -117,11 +117,12 @@
 }
 .announcement-date{
     color: #5d5d5d;
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
 }
 .announcement-content{
     margin-bottom: 5px;
+    font-size: 13px;
     display: inline;
 }
 
@@ -138,4 +139,22 @@
     
     overflow-y: auto;
     word-break:break-all;
+}
+
+
+
+.realtime-countdown-list{
+    background: black;
+    color: white;
+    
+    font-size: 30px;
+    /*max-width: 393px;*/
+    /*height: 120px;*/
+    max-height: 120px;
+    padding-left: 7px;
+    padding-top: 1px;
+    
+    overflow-y: auto;
+    word-break:break-all;
+    
 }

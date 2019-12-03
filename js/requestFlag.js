@@ -68,6 +68,11 @@ $(".submit-flag").click(function(){
             input_control.attr("placeholder","Your request caused error.");
             input_control.css("font-weight", "bold");
         }
+        else if(data['result'] == "CCTF is not started." || data['result'] == "CCTF is ended."){
+            input_control.css("background-color", "#effb8e");
+            input_control.attr("placeholder",data['result']);
+            input_control.css("font-weight", "bold");
+        }
     });
     
     // Init input style after 1 sec

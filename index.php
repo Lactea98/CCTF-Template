@@ -20,6 +20,8 @@
         [*] All Reference
             [ㅁ] Create safe PHP CSRF token
                 https://stackoverflow.com/questions/6287903/how-to-properly-add-csrf-token-using-php
+            [ㅁ] CountDown example
+                https://codepen.io/AllThingsSmitty/pen/JJavZN
     */
 
 
@@ -53,6 +55,9 @@
     <!-- Font Link: https://fonts.google.com/?selection.family=Source+Code+Pro#QuickUsePlace:quickUse%2FFamily:Roboto -->
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro|Titillium+Web:300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/main-countdown.css">
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
     <div id="container">
@@ -96,13 +101,35 @@
                 <?php 
                     // Main Page
                     if(!isset($_GET['page'])){
-                        ?>
-                        test<br>
-                        test<br>
-                        test<br>
-                        test<br>
-                        test<br>
-                        <?php
+                        include "./db.php";
+                        
+                        $query = "SELECT begin_timer, begin_timer <= now() as now FROM config";
+                        $result = $mysqli->query($query);
+                        $row = mysqli_fetch_array($result);
+                        
+                        if($row['now'] == 1){
+                            ?>
+                            test<br>
+                            test<br>
+                            <?php
+                        }
+                        else{
+                            ?>
+                            <input type="hidden" class="countDown" value="<?php echo $row['begin_timer']; ?>">
+                            <div class="main-countdown">
+                                <center>
+                                    <br><br>
+                                    <h1>Casper CTF 2019</h1>
+                                    <ul>
+                                        <li><span id="days">--</span>days</li>
+                                        <li><span id="hours">--</span>Hours</li>
+                                        <li><span id="minutes">--</span>Minutes</li>
+                                        <li><span id="seconds">--</span>Seconds</li>
+                                    </ul>
+                                </center>
+                            </div>
+                            <?php
+                        }
                     }
                     
                     // Rule page
@@ -153,5 +180,6 @@
         Casper Capture The Flag<br>
         Designed by <a href="https://profile.lactea.kr" target="_blank">universe</a>
     </div>
+    <script src="/js/main-countdown.js"></script>
 </body>
 </html>

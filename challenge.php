@@ -33,8 +33,22 @@
     if(!$_SESSION['isLogin']){
         header("Location: /login.php?page=login", true, 301);
     }
+    
     // User is logined. 
     include "./db.php";
+    
+    /////////////////////////////
+    // CCTF가 시작했는지 확인
+    $query = "SELECT begin_timer <= now() as now FROM config";
+    $result = $mysqli->query($query);
+    $row = mysqli_fetch_array($result);
+    
+        // 1이면 시작
+    if($row['now'] != 1){
+        header("Location: /", true, 301);
+    }
+    /////////////////////////////
+    
     
     // Get prob category
     $category_query = "SELECT category_name FROM category";
@@ -74,6 +88,9 @@
     <link rel="stylesheet" href="/css/challenge.css">
     <link rel="stylesheet" href="/css/etc.css">
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/css/challenge-countdown.css">
+    <!-- CDN -->
+    <script src="//cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -158,7 +175,7 @@
                                 }
                                 ?>
                                 <!-- Box -->
-                                <div class="prob" data-toggle="modal" data-target="#prob<?php echo $count; ?>" id="idx_<?php echo $count; ?>" <?php if(count($solver_list) > 1 && $is_solved == 0){ echo "style= 'background: #777'"; }  if($is_solved == 1){ echo "style='background: green;'"; } ?>>
+                                <div class="prob" data-toggle="modal" data-target="#prob<?php echo $count; ?>" id="idx_<?php echo $prob_list['idx']; ?>" <?php if(count($solver_list) > 1 && $is_solved == 0){ echo "style= 'background: #777'"; }  if($is_solved == 1){ echo "style='background: green;'"; } ?>>
                                     <div class="prob-content">
                                         <div class="prob-title">
                                             <div class="challenge-search" style="display: none">
@@ -277,12 +294,11 @@
     
     <div id="realtime">
         <!-- 실시간 채팅 -->
-        <div class="hr"></div>
-        <div class="realtime-content realtime-chatting">Chatting<i class="fas fa-list"></i></div>
-        <div class="hr"></div>
-        <div class="realtime-chatting-list" style="display: none">
-            
-        </div>
+        <!--<div class="hr"></div>-->
+        <!--<div class="realtime-content realtime-chatting">Chatting<i class="fas fa-list"></i></div>-->
+        <!--<div class="hr"></div>-->
+        <!--<div class="realtime-chatting-list" style="display: none">-->
+        <!--</div>-->
         <!---->
         
         <!-- 실시간 공지 -->
@@ -291,12 +307,12 @@
         <div class="hr"></div>
         <div class="realtime-announcment-list" style="display: none">
             <?php
-                $query = "SELECT category, message, date_format(date, '%m-%d %h:%i') as date FROM announcement ORDER BY idx DESC";
+                $query = "SELECT idx, category, message, date_format(date, '%m-%d %H:%i') as date FROM announcement ORDER BY idx DESC";
                 $result = $mysqli->query($query);
                 
                 while($row = mysqli_fetch_array($result)){
                     ?>
-                    <div class="announcement-date">
+                    <div class="announcement-date" id="announce_<?php echo $row['idx']; ?>">
                         <?php echo "[" . $row['date'] . "]"; ?>
                     </div><?php
                     if($row['category'] === "admin"){   // admin이 직접 공지 할 경우
@@ -308,12 +324,14 @@
                         </div>
                         <?php
                     }
-                    else if($row['category'] === "user"){   // user에 대한 이벤트 (문제를 풀었을 때 등등..)
+                    else if($row['category'] === "captured"){   // user에 대한 이벤트 (문제를 풀었을 때 등등..)
                         ?>
                         <div class="announcement-content">
                             <?php 
-                                echo "<font color='red'>[Alert]</font>: ";
-                                echo htmlspecialchars($row['message']); ?>
+                                $message = explode(" || ", $row['message']);
+                                
+                                echo "<font color='red'>".htmlspecialchars($message[0])."</font> captured <font color='#d46313'>" . htmlspecialchars($message[1]) . "</font>";
+                            ?>
                         </div>
                         <?php
                     }
@@ -321,7 +339,7 @@
                         ?>
                         <div class="announcement-content">
                             <?php 
-                                echo "<font color='blue'>[Updated]</font>: ";
+                                echo "<font color='#d46313'>[Updated]</font>: ";
                                 echo htmlspecialchars($row['message']); ?>
                         </div>
                         <?php
@@ -334,6 +352,38 @@
             ?>
         </div>
         <!---->
+        
+        <!-- Countdown -->
+        <!-- Countdown disign list -->
+        <!--
+            https://bashooka.com/coding/40-css-javascript-animated-countdown-timer-examples/
+            https://codepen.io/shshaw/pen/BzObXp
+            https://codepen.io/lawrencealan/pen/cdwhm
+            https://codepen.io/gau/pen/LjQwGp
+            https://codepen.io/cMack87/pen/rVmEQm
+        -->
+        <?php
+            // $query = "select TIMESTAMPDIFF(second, date_format(now(), '%Y-%m-%d %H:%i:%s'), date_format(end_timer, '%Y-%m-%d %H:%i:%s')) as date from config";
+            $query = "SELECT end_timer, end_timer <= now() as now FROM config";
+            $result = $mysqli->query($query);
+            $row = mysqli_fetch_array($result);
+            
+             if($row['now'] == 1){
+                 $row['end_timer'] = 0;
+             }
+        ?>
+        <div class="hr"></div>
+        <div class="realtime-content realtime-countdown">Timer<i class="fas fa-list"></i></div>
+        <div class="hr"></div>
+        <div class="realtime-countdown-list" style="display: none"> 
+            <div id="clock">
+                <input type="hidden" class="countDown" value="<?php echo $row['end_timer']; ?>">
+                <!--<p class="date">{{ date }}</p>-->
+                <p class="time">{{ date }} days {{ time }}</p>
+                <!--<p class="text">DIGITAL CLOCK with Vue.js</p>-->
+            </div>
+        </div>
+        <!---->
     </div>
     
     
@@ -344,6 +394,7 @@
     <script src="/js/bootstrap/bootstrap.js"></script>
     <script src="/js/requestFlag.js"></script>
     <script src="/js/challenge.js"></script>
-    <script src="/js/etc.js"></script>
+    <script src="/js/challenge-countdown.js"></script>
+    <!--<script src="/js/etc.js"></script>-->
 </body>
 </html>

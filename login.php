@@ -141,18 +141,24 @@
     if($_GET['page'] === "register" && isset($_POST['nickname'], $_POST['userid'], $_POST['userpw1'], $_POST['userpw2'])){
         include "./db.php";
         /* Length range information
-            * nickname: 1 ~ 14
+            * nickname: 5 ~ 14
             * userid: 3 ~ 30
             * userpw1: 8 ~ 30
             * userpw2: 8 ~ 30
             * comment: ~ 500
             * File name: 1 ~ 100
         */
-        $nickname = 1<=strlen($_POST['nickname']) && strlen($_POST['nickname'])<=14 ? $_POST['nickname'] : false;
+        $nickname = 5<=strlen($_POST['nickname']) && strlen($_POST['nickname'])<=14 ? $_POST['nickname'] : false;
         $userid = 3<=strlen($_POST['userid']) && strlen($_POST['userid'])<=30 ? $_POST['userid'] : false;
         $userpw1 = 8<=strlen($_POST['userpw1']) && strlen($_POST['userpw1'])<=30 ? $_POST['userpw1'] : false;
         $userpw2 = 8<=strlen($_POST['userpw2']) && strlen($_POST['userpw2'])<=30 ? $_POST['userpw2'] : false;
         $comment = strlen($_POST['comment'])<=500 ? $_POST['comment'] : false;
+        
+        
+        if(preg_match('/[^A-Za-z0-9]/', $nickname) || preg_match('/[^A-Za-z0-9]/', $userid)){
+            echo "<script>alert('ID와 nickname은 영문, 숫자만 가능합니다.'); history.back();</script>";
+                exit();
+        }
         
         // Verify that value is correct. 
         if($nickname && $userid && $userpw1 && $userpw2 && ($comment || empty($_POST['comment']))){
