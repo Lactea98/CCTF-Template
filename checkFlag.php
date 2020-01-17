@@ -73,8 +73,8 @@
                                     exit();
                                 }
                             }
-
-
+                            
+                            
                             /*  
                                 [*] Update challenge's first_solver and solved
                             */
@@ -178,6 +178,28 @@
                             else{
                                 $response = array("result" => "DB error.");
                             }
+                            
+                            
+                            ///////////////////////////////////////
+                            // scoreboard 데이터를 위한 기록 저장
+                            if($getHistory = $mysqli->prepare("SELECT history FROM user WHERE nickname=?")){
+                                $getHistory->bind_param("s", $nickname);
+                                $getHistory->execute();
+                                $getHistory->bind_result($history);
+                                $getHistory->fetch();
+                                $getHistory->close();
+                                
+                                // 저장 예
+                                // 2020-01-12 23:12:04 => 100, 2020-01-13 00:01:04 => 150, ...
+                                if($saveHistory = $mysqli->prepare("UPDATE user SET history = concat(?, concat(now(), ?)) WHERE nickname = ?")){
+                                    $contents = " => " . $result_points . ", ";
+                                    $saveHistory->bind_param("sss", $history, $contents, $nickname);
+                                    $saveHistory->execute();
+                                    $saveHistory->close();
+                                }
+                            }
+                            ////////////////////////////////////////
+                            
                             
                             header('Content-Type: application/json');
                             echo json_encode($response, true);

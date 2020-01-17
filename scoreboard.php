@@ -28,6 +28,33 @@
     
     include "./db.php";
     
+    
+    //////////////////////////
+    // Get Scoreboard Data
+    if(isset($_GET['getData']) && $_GET['getData'] == 1){
+        $query = "SELECT nickname, history FROM user WHERE visible = 1";
+        $result = $mysqli->query($query);
+        $row = array();
+        
+        while($r = mysqli_fetch_assoc($result)){
+            $row["userHistory"][] = $r;
+        }
+        
+        $query = "SELECT begin_timer, end_timer FROM config";
+        $result2 = $mysqli->query($query);
+        
+        while($r = mysqli_fetch_assoc($result2)){
+            $row["time"] = $r;
+        }
+        
+        
+        header('Content-Type: application/json');
+        echo json_encode($row, true);
+        exit();
+    }
+    //////////////////////////
+    
+    
     $query = "SELECT nickname, points, comment, profile, last_time, solved_challenge FROM user WHERE visible = 1 ORDER BY points DESC";
     $result = $mysqli->query($query);
     
@@ -58,6 +85,8 @@
     <link rel="stylesheet" href="/css/bootstrap/bootstrap.css">
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 </head>
 <body>
     <div id="container">
@@ -99,6 +128,10 @@
             <div class="content-value">
                 <h1>Team Scoreboard</h1>
                 <center>
+                    <div style="width:80%; ">
+                        <canvas id="socreboardChart"></canvas>
+                    </div>
+                
                     <!-- Introduce Top3 -->
                     <?php
                         $count = 1;
@@ -182,5 +215,6 @@
         Designed by <a href="https://profile.lactea.kr" target="_blank">universe</a>
     </div>
     <script src="/js/bootstrap/bootstrap.js"></script>
+    <script src="/js/scoreChart.js"></script>
 </body>
 </html>

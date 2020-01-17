@@ -43,9 +43,21 @@
     $result = $mysqli->query($query);
     $row = mysqli_fetch_array($result);
     
+    $isAdmin = $mysqli->prepare("SELECT admin FROM user WHERE nickname=?");
+    $isAdmin->bind_param("s", $_SESSION['nickname']);
+    $isAdmin->execute();
+    $isAdmin->bind_result($a);
+    $isAdmin->fetch();
+    $isAdmin->close();
         // 1이면 시작
     if($row['now'] != 1){
-        header("Location: /", true, 301);
+        // 어드민 이면 통과
+        if ($a == 1){
+            $admin_ok = 1;
+        }
+        else{
+            header("Location: /", true, 301);
+        }
     }
     /////////////////////////////
     
@@ -60,20 +72,12 @@
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
     
-    
-    $isAdmin = $mysqli->prepare("SELECT admin FROM user WHERE nickname=?");
-    $isAdmin->bind_param("s", $_SESSION['nickname']);
-    $isAdmin->execute();
-    $isAdmin->bind_result($a);
-    $isAdmin->fetch();
-
     if($a != 1){
         $admin_ok = 0;
     }
     else{
         $admin_ok = 1;
     }
-    $isAdmin->close();
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -181,7 +185,15 @@
                                             <div class="challenge-search" style="display: none">
                                                 <?php echo strtolower($category_name['category_name']) ?>
                                             </div>
-                                            <?php echo htmlspecialchars($prob_list['title']); ?>
+                                            <?php
+                                                //echo htmlspecialchars($prob_list['title']);
+                                                if(iconv_strlen($prob_list['title'], "UTF-8") >= 21){
+                                                    echo htmlspecialchars(substr($prob_list['title'], 0, 21) . "...");
+                                                }
+                                                else{
+                                                    echo htmlspecialchars($prob_list['title']);
+                                                }
+                                            ?>
                                         </div>
                                         <div class="prob-points">
                                             <?php echo $prob_list['points']; ?>
@@ -218,7 +230,7 @@
                                         </button>
                                       </div>
                                       <div class="modal-body">
-                                        <?php echo $prob_list['contents']; ?>
+                                        <?php echo nl2br($prob_list['contents']); ?>
                                         <div class="modal-solver" data-toggle="modal" data-target="#prob<?php echo $count; ?>_test">
                                             Solver: <?php echo $prob_list['solved']; ?> (Click)
                                         </div>
@@ -307,7 +319,7 @@
         <div class="hr"></div>
         <div class="realtime-announcment-list" style="display: none">
             <?php
-                $query = "SELECT idx, category, message, date_format(date, '%m-%d %H:%i') as date FROM announcement ORDER BY idx DESC";
+                $query = "SELECT idx, category, message, date_format(date, '%m-%d %H:%i:%s') as date FROM announcement ORDER BY idx DESC";
                 $result = $mysqli->query($query);
                 
                 while($row = mysqli_fetch_array($result)){

@@ -14,12 +14,12 @@ $(".submit-flag").click(function(){
         url: "./checkFlag.php",
         async: false,
         type: "POST",
+        dataType: "json",
         data: {
             idx: idx,
             flag: flag,
             csrf_token: csrf_token
         },
-        dataType: "json",
         
         // Before send request
         beforeSend: function(result){

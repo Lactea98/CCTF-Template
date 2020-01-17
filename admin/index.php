@@ -205,14 +205,14 @@
                             <div class="config-hr"></div>
                             <div class="config-content">
                                 All record is reset.<br>
-                                Example, <font color="#d46313">User Infomation</font> is reset to below.<br>
-                                --> points, last_time, solved challenge<br><Br>
-                                <font color="#d46313">Announcement</font> is reset to below.<br>
-                                --> idx, Message, date<br><Br>
-                                <font color="#d46313">Challenge</font> is reset to below.<br>
-                                --> solved, first_solver, solver_list<br><Br>
-                                <font color="#d46313">Config</font> is reset to below.<br>
+                                Example, <font color="#d46313">User Infomation</font> table is reset to below.<br>
+                                --> points, last_time, solved challenge, history<br><Br>
+                                <font color="#d46313">Announcement</font> table is reset all.<br><br>
+                                <font color="#d46313">Challenge</font> table is reset to below.<br>
+                                --> solved, first_solver, solver_list, points<br><Br>
+                                <font color="#d46313">Config</font> table is reset to below.<br>
                                 --> Start time, End time<br><Br>
+                                <font color="#d46313">Logs</font> table is reset all.<br><Br>
                                 <button type="button" class="btn btn-outline-danger config-reset">Reset CCTF</button>
                                 <div class="config-request-result"></div>
                             </div>
@@ -368,6 +368,7 @@
                                            <label class="custom-control-label" for="customRadioInline<?php echo $count + 100; ?>">Hidden</label>
                                         </div>
                                         <button type="button" class="btn btn-outline-success" id="<?php echo $row['idx']; ?>" value="viewer">Edit challenge</button>
+                                        <button type="button" class="btn btn-outline-danger config-challenge-delete">Delete Challenge</button>
                                     </div>
                                 </div>
                                 <div class="config-hr"></div>

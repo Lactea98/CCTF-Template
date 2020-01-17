@@ -217,7 +217,7 @@
                                             $uploadDir = "/uploads/userImage/";
                                             $fileTmpName  = $_FILES['profile_img']['tmp_name'];
                                             $randomString = generateRandomString(32) . "/";
-                                            // $fileName = str_replace(".", "", $fileName);
+                                            $fileName = str_replace("..", "", $fileName);
                                             $fileName = str_replace("/", "", $fileName);
                                             
                                             $uploadPath = $currentDir . $uploadDir . $randomString . basename($fileName);

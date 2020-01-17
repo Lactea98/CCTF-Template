@@ -22,10 +22,11 @@ function showProb(category, option){
 
 /////////////////////////////////////
 // 공지글 주기적으로 가져오기
-var time = 120; // sec
+var time = 60; // sec
 getAnnouncement = setInterval(function(){
     $.ajax({
         url: "./config.php",
+        async: false,
         type: "POST",
         data:{
             option: "getAnnouncement"

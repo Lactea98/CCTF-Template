@@ -152,7 +152,7 @@ function requestChallenge(idx, title, content, flag, points, bonus, decrease, ca
         url: "./config.php",
         type: "POST",
         data:{
-            option: "challenge",
+            option: "challenge-update",
             csrf_token: csrf,
             idx: idx,
             title: title,
@@ -218,6 +218,12 @@ function requestUserInfo(userid, points, pw1, pw2, visible, auth, $result){
 
 // CCTF 리셋 버튼 눌렸을 때 이벤트
 $(".config-reset").click(function(){
+    var question = confirm("Do you want to delete this challenge?");
+    
+    if(question == false){
+        return;
+    }
+    
     var csrf = $(".csrf_token").val();
     var $result = $(this).parent().find(".config-request-result");
     
@@ -363,3 +369,40 @@ function createNewChallenge(title, contents, flag, points, bonus, decrease, cate
         }
     })
 }
+
+$(".config-challenge-delete").click(function(){
+    var question = confirm("Do you want to delete this challenge?");
+    
+    if(question == false){
+        return;
+    }
+    
+    var idx = $(this).parent().parent().parent().attr("id").substring(10,);
+    var csrf = $(".csrf_token").val();
+    var $result_msg = $(this).parent().find(".config-challenge-request-result");
+    
+    $.ajax({
+        url: "./config.php",
+        type: "POST",
+        data:{
+            csrf_token: csrf,
+            option: "challenge-delete",
+            idx: idx
+        },
+        datatype: "json"
+    }).done(function(result){
+        if(result['result'] == "success"){
+            $result_msg.html("<font color='green'><strong>"+result['message']+"</strong></font>");
+            
+            setTimeout(function(){
+                location.reload();
+            },1000);
+        }
+        else if(result['result'] == "error"){
+            $result_msg.html("<font color='red'><strong>"+result['message']+"</strong></font>");
+        }
+        else{
+            $result_msg.html("<font color='red'><strong>Unexpected Error.</strong></font>");
+        }
+    })
+})

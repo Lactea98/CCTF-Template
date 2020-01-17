@@ -163,9 +163,10 @@
         } 
         ///////////////////////
         
+        
         ///////////////////////
         // 문제를 수정할 때
-        else{
+        else if($option[1] === "update"){
             $idx = $_POST['idx'];
             $title = $_POST['title'];
             $content = $_POST['content'];
@@ -216,6 +217,38 @@
             }
         }
         /////////////////
+        
+        
+        /////////////////////////
+        // 문제를 삭제 할때 
+        else if($option[1] === "delete"){
+            $idx = $_POST['idx'];
+            
+            if(isset($idx)){
+                if($delete = $mysqli->prepare("DELETE FROM challenge WHERE idx=?")){
+                    $delete->bind_param("i", $idx);
+                    $isErr = $delete->execute();
+                    
+                    if($isErr === false){
+                        $response = array("message" => "DB error during using idx.", "category" => "challenge", "result" => "error");
+                    }
+                    else{
+                        $response = array("message" => "Successfully deleted.", "category" => "challenge", "result" => "success");
+                    }
+                }
+                else{
+                    $response = array("message" => "DB error during deleting.", "category" => "challenge", "result" => "error");
+                }
+            }
+            else{
+                $response = array("message" => "Wrong parameter.", "category" => "challenge", "result" => "error");
+            }
+        }
+        ////////////////////////
+        
+        else{
+            $response = array("message" => "Wrong parameter.", "category" => "challenge", "result" => "error");
+        }
     }
     else if($option[0] === "user"){
         $userid = $_POST['userid'];
@@ -269,7 +302,7 @@
             CCTF reset config list
             
             [*] user 테이블에서 초기화 컬럼 목록
-                --> points, last_time, solved_challenge
+                --> points, last_time, solved_challenge, history
             [*] announcement 테이블에서 초기화 컬럼 목록
                 --> idx, message, date time
             [*] challenge 테이블에서 초기화 컬럼 목록
@@ -280,7 +313,7 @@
         */
         
         // user 테이블 초기화
-        $user_table = "UPDATE user SET points = 0, last_time = NULL, solved_challenge=''";
+        $user_table = "UPDATE user SET points = 0, last_time = NULL, solved_challenge='', history=''";
         $mysqli->query($user_table);
         
         // announcement 테이블 초기화
