@@ -64,7 +64,7 @@ password: admin1234
 
 ------------
 
-#### 4. Details
+### 4. Details
 
 사용한 라이브러리 목록은 아래와 같습니다.
 
@@ -271,7 +271,7 @@ mysql> desc user;
 
 ------------
 
-#### 5. ETC
+### 5. ETC
 
 기타 버그 및 개선 등과 같은 문의는 whdals7979@gmail.com 으로 부탁드립니다.
 
