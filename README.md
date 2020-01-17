@@ -15,7 +15,7 @@
 
 이 템블릿을 사용하기 위해서는 아래와 같은 환경이 구성되어 있어야 합니다.
 
-- Server: Apache2
+- Server: Apache2 (Or anything)
 - Server Side: php 7.2.24
 - DB: Mysql
 
