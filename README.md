@@ -18,7 +18,7 @@
 ------------
 
 디렉토리의 구조는 아래와 같습니다.
-`
+```
 ├── admin
 │   ├── config.php
 │   └── index.php
@@ -117,4 +117,4 @@
         ├── w8rkngukVwX981bmO9Bq2RtmQ4IjIrvo
         │   └── cat.jpg
         └── ziX2leIJYX
-`
+```
